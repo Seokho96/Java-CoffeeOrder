@@ -1,0 +1,99 @@
+CREATE TABLE COFFEEMENU(
+       
+     COF_NAME VARCHAR2(50) PRIMARY KEY,
+     COF_PRICE NUMBER(10)
+);
+
+ 
+INSERT INTO COFFEEMENU
+VALUES ('오늘의 커피', 2500);
+
+
+
+select *
+FROM ORDERLIST
+WHERE SEQ = (SELECT CO_SEQ.CURRVAL
+             FROM DUAL);
+
+        
+             
+         
+             SELECT LAST_NUMBER
+             FROM USER_SEQUENCES
+             WHERE SEQUENCE_NAME = 'CO_SEQ';
+             
+             
+             
+      select *
+from ORDERLIST
+ORDER BY SEQ;
+
+CREATE TABLE CO_MEMBER (
+      ID VARCHAR2(30) PRIMARY KEY,
+      PWD NUMBER(10)  NOT NULL,
+      NAME VARCHAR2(30)  NOT NULL,
+      AGE NUMBER(10)  NOT NULL,
+      AUTH NUMBER(1)  
+     
+);
+
+CREATE SEQUENCE CO_SEQ2
+INCREMENT BY 1            
+MINVALUE 0;
+
+
+
+	private int seq;
+	private String id;
+	private String menu;
+	private String syrup;
+	private String shot;
+	private String wheeping;
+	private String size;
+	private int cup;
+	private int price;
+	private String wdate;
+
+
+drop table ORDERLIST;
+
+CREATE TABLE ORDERLIST (
+     SEQ NUMBER(8),
+     ID VARCHAR2(30),
+     COF_NAME VARCHAR2(50),
+     SYRUP VARCHAR2(20),
+     SHOT VARCHAR2(20),
+     WHEEPING VARCHAR2(20),
+     CO_SIZE VARCHAR2(20),
+     CUP NUMBER(10),
+     PRICE NUMBER(10),
+     WDATE DATE ,
+     
+     CONSTRAINT PK_ORDERLIST FOREIGN KEY(ID)  
+  REFERENCES CO_MEMBER(ID)
+);
+
+
+SELECT ID, COF_NAME, SYRUP, SHOT, WHEEPING, CO_SIZE, CUP, PRICE 
+				 FROM ORDERLIST 
+				WHERE SEQ = ( SELECT LAST_NUMBER
+			                    FROM USER_SEQUENCES 
+				                WHERE SEQUENCE_NAME = 'CO_SEQ');
+
+
+ALTER TABLE ORDERLIST
+ADD
+CONSTRAINT FK_ORDERLIST FOREIGN KEY(COF_NAME)
+REFERENCES COFFEEMENU(COF_NAME);
+
+
+ALTER SEQUENCE CO_SEQ INCREMENT BY 1
+MINVALUE 0;
+
+
+SELECT CO_SEQ.NEXTVAL 
+FROM USER_SEQUENCES
+WHERE SEQUENCE_NAME = 'CO_SEQ2';
+
+
+DROP SEQUENCE CO_SEQ;
